@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"log/syslog"
 	"os"
 	"runtime"
 )
@@ -34,9 +33,8 @@ func NewLogger(config Config) (*Logger, error) {
 
 	// Linux-specific: attach syslog
 	if runtime.GOOS == "linux" {
-		syslogWriter, err := syslog.New(syslog.LOG_INFO|syslog.LOG_LOCAL7, "")
-		if err == nil {
-			writers = append(writers, syslogWriter)
+		if w, err := getSyslogWriter(); err == nil {
+			writers = append(writers, w)
 		}
 	}
 
