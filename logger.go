@@ -47,10 +47,12 @@ func NewLogger(config Config) (*Logger, error) {
 		writers = append(writers, fileWriter)
 	}
 
-	if len(writers) == 0 {
+	/*if len(writers) == 0 {
 		// Default to stdout
 		writers = append(writers, os.Stdout)
-	}
+	}*/
+	// add stdout
+	writers = append(writers, os.Stdout)
 
 	mw := io.MultiWriter(writers...)
 	return &Logger{
